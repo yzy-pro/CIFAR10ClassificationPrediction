@@ -2,7 +2,6 @@
 # 此程序将会自动使用models文件夹下的准确率最高的模型
 
 # 将待预测的图片命名为 app.png ，置于此项目根目录下，运行程序，即可得到运行结果
-
 import os
 import torch
 from PIL import Image
