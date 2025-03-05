@@ -22,7 +22,8 @@ python -m pip install torch==2.5.1.post0+cxx11.abi torchvision==0.20.1.post0+cxx
 
 * https://www.cnblogs.com/xiaoxing-chen/p/18537910
 ### 项目成果
-* 使用项目成果，请直接运行[application.py](application.py)
+* 最终准确率：80% ~ 85%
+* 使用项目成果，请运行[application.py](application.py)
 #### 源代码
 * 加载数据[data_loader.py](data_loader.py)
 * 建立模型[module.py](module.py)
