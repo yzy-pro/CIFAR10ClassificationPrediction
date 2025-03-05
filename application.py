@@ -1,19 +1,13 @@
 # 使用说明：
 # 此程序将会自动使用models文件夹下的准确率最高的模型
 
-# 将待预测的图片命名为 app.png ，置于此项目根目录下，运行程序，即可得到运行结果
+# 将待预测的图片置入 app 文件夹下，运行程序，即可得到预测结果
+
 import os
 import torch
 from PIL import Image
 import torchvision
 import re
-
-app_img = Image.open('app.png')
-app_img.show()
-tran_pose = torchvision.transforms.Compose([
-    torchvision.transforms.Resize(size=(32, 32)),
-    torchvision.transforms.ToTensor(),
-])
 
 labels_idx = {
     0: 'airplane',
@@ -48,9 +42,22 @@ for filename in os.listdir(directory):
 
 print(f"using model: {best_model}")
 app_net = torch.load(best_model, map_location=torch.device('cpu'))
-app_img = tran_pose(app_img)
-app_img = torch.reshape(app_img, (1, 3, 32, 32))
-app_output = app_net(app_img)
-answer = labels_idx[app_output.argmax(axis=1).item()]
 
-print(f"I think it is a/an {answer}")
+image_extensions = ('.png', '.jpg', '.jpeg', '.bmp', '.gif')
+image_files = [file for file in os.listdir('app') if file.lower().endswith(
+    image_extensions)]
+
+for app_file in image_files:
+    app_path = os.path.join('./app', app_file)
+    app_img = Image.open(app_path).convert('RGB')
+    # app_img.show()
+    tran_pose = torchvision.transforms.Compose([
+        torchvision.transforms.Resize(size=(32, 32)),
+        torchvision.transforms.ToTensor(),
+    ])
+
+    app_img = tran_pose(app_img)
+    app_img = torch.reshape(app_img, (1, 3, 32, 32))
+    app_output = app_net(app_img)
+    answer = labels_idx[app_output.argmax(axis=1).item()]
+    print(f"I think {app_file} is a/an {answer}")
