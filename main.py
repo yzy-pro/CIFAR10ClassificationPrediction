@@ -9,19 +9,22 @@ import os
 
 device = torch.device("xpu" if torch.xpu.is_available() else "cpu")
 
+# 加载数据
 train_data, test_data = data_loader.data_loader()
 train_data_load = DataLoader(dataset=train_data, batch_size=64,
                                shuffle=True, drop_last=True)
 test_data_load = DataLoader(dataset=test_data, batch_size=64,
                               shuffle=True, drop_last=True)
 
+# 设置，详见module.py文件中的注释
 mynet = module.mynet.to(device)
 loss_fn = module.loss_fn.to(device)
 optim = module.optim
 
 if __name__ == "__main__":
-    epochs = 2
+    epochs = 30
 
+    # 为绘图准备的列表
     train_loss_plt = []
     test_loss_plt = []
     acc_plt = []
@@ -32,6 +35,8 @@ if __name__ == "__main__":
         train_step = 0
         mynet.train()
         losses = []
+
+        # 训练过程
         for j, (imgs, labels) in enumerate(train_data_load):
             imgs = imgs.to(device)
             labels = labels.to(device)
@@ -51,6 +56,7 @@ if __name__ == "__main__":
 
         train_loss_plt.append(sum(losses) / len(losses))
 
+        # 验证过程
         mynet.eval()
         accuracy = 0
         total_accuracy = 0
@@ -85,9 +91,11 @@ if __name__ == "__main__":
 
             print("Epoch %d, accuracy: %f" % (epoch + 1,
                                                    average_accuracy))
+            # 导出训练模型
             os.makedirs(os.path.join(os.getcwd(), 'models'), exist_ok=True)
             torch.save(mynet, f'./models/E_{epoch + 1}_acc_{average_accuracy}.pth')
 
+    # 绘图
     train_loss_plt, test_loss_plt, acc_plt =\
         plot.to_numpy(train_loss_plt), plot.to_numpy(test_loss_plt), plot.to_numpy(acc_plt)
 

@@ -50,3 +50,24 @@ import shutil
 # # 显示图形
 # plt.title('Two Y axes with different scales')
 # plt.show()
+
+#
+# directory = "models"
+# pattern = re.compile(r'acc_([\d.]+)')
+#
+# best_acc = -1
+# best_model = None
+#
+# for filename in os.listdir(directory):
+#     match = pattern.search(filename)
+#     if match:
+#         acc_str = match.group(1).rstrip('.')
+#         try:
+#             acc = float(acc_str)
+#             if acc > best_acc:
+#                 best_acc = acc
+#                 best_model = os.path.join(directory, filename)
+#         except ValueError:
+#             print(f"error: {acc_str} ({filename})")
+#
+# print(f"using model: {best_model}")

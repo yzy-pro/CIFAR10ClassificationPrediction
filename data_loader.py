@@ -8,10 +8,11 @@ def data_loader():
         train=True,
         transform=torchvision.transforms.Compose([
             torchvision.transforms.RandomCrop(size=(32, 32), padding=4),# 随机裁剪
-            torchvision.transforms.RandomHorizontalFlip(p=0.5),# suijifanzhuan
+            torchvision.transforms.RandomHorizontalFlip(p=0.5),# 随机翻转
             torchvision.transforms.ToTensor(),
             torchvision.transforms.Normalize(mean=[0.4914, 0.4822, 0.4465],
                                              std=[0.2023, 0.1994, 0.2010]),
+            # 标准化
 
         ]),
     download = True,
