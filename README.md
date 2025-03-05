@@ -1,3 +1,4 @@
+# 这个旧版本已经放弃继续研究了
 # Comsen
 ## 华中科技大学光学与电子信息学院2409陈恪瑾
 ### 项目概述
@@ -35,9 +36,9 @@ https://www.cnblogs.com/xiaoxing-chen/p/18537910
 #### 预测结果
 [model_test.py](v_1/model_test.py)
 #### 导出模型
-[best_model.pth](module/best_model.pth)
+[best_model.pth](v_1/module/best_model.pth)
 #### 训练可视化曲线图
-[plots](plots)
+[plots](v_1/plots)
 
 
  

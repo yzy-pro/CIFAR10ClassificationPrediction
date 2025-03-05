@@ -45,7 +45,7 @@ class MyNet(nn.Module):
 
             nn.Linear(in_features=256, out_features=10),
             # nn.ReLU(inplace=True),
-            nn.Dropout(p=0.5),
+            # nn.Dropout(p=0.5),
 
         )
 
@@ -58,7 +58,6 @@ learning_rate = 1e-3
 mynet = MyNet()
 loss_fn = nn.CrossEntropyLoss()
 optim = torch.optim.Adam(mynet.parameters(), lr=learning_rate)
-
 
 
 if __name__ == '__main__':

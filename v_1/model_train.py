@@ -126,7 +126,7 @@ def train_model_process(model, train_dataloader, val_dataloader, num_epochs):
 
     # 加载最高准确率下的模型参数
     model.load_state_dict(best_model_wts)
-    torch.save(best_model_wts, '../module/best_model.pth')
+    torch.save(best_model_wts, 'module/best_model.pth')
 
     train_process = pd.DataFrame(data={"epoch": range(num_epochs),
                                         "train_loss_all": train_loss_all,

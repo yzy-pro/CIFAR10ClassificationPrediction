@@ -59,7 +59,7 @@ if __name__ == "__main__":
     model = LeNet()
 
     # 加载已训练的最佳模型权重
-    model.load_state_dict(torch.load('../module/best_model.pth'))
+    model.load_state_dict(torch.load('module/best_model.pth'))
 
     # 加载测试数据
     test_dataloader = test_data_process()
