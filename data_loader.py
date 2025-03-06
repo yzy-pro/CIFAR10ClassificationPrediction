@@ -8,9 +8,7 @@ def data_loader():
         train=True,
         transform=torchvision.transforms.Compose(
             [
-                torchvision.transforms.RandomCrop(
-                    size=(32, 32), padding=4
-                ),  # 随机裁剪
+                torchvision.transforms.RandomCrop(size=(32, 32), padding=4),  # 随机裁剪
                 torchvision.transforms.RandomHorizontalFlip(p=0.5),  # 随机翻转
                 torchvision.transforms.ToTensor(),
                 torchvision.transforms.Normalize(

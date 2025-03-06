@@ -32,11 +32,7 @@ if __name__ == "__main__":
     acc_plt = []
 
     for epoch in range(epochs):
-        print(
-            "Epoch {}/{} ********************************".format(
-                epoch + 1, epochs
-            )
-        )
+        print("Epoch {}/{} ********************************".format(epoch + 1, epochs))
         train_step = 0
         mynet.train()
         losses = []
@@ -85,9 +81,7 @@ if __name__ == "__main__":
                 # print(f"Outputs shape: {outputs.shape}")
                 # print(f"Labels shape: {labels.shape}")
 
-                accuracy = (
-                    (outputs.argmax(axis=1).cpu() == labels.cpu()).sum().item()
-                )
+                accuracy = (outputs.argmax(axis=1).cpu() == labels.cpu()).sum().item()
                 total_accuracy += accuracy
                 average_accuracy = total_accuracy / (len(test_data_load) * 64)
 
@@ -97,9 +91,7 @@ if __name__ == "__main__":
             print("Epoch %d, accuracy: %f" % (epoch + 1, average_accuracy))
             # 导出训练模型
             os.makedirs(os.path.join(os.getcwd(), "models"), exist_ok=True)
-            torch.save(
-                mynet, f"./models/E_{epoch + 1}_acc_{average_accuracy}.pth"
-            )
+            torch.save(mynet, f"./models/E_{epoch + 1}_acc_{average_accuracy}.pth")
 
     # 绘图
     train_loss_plt, test_loss_plt, acc_plt = (

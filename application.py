@@ -45,9 +45,7 @@ app_net = torch.load(best_model, map_location=torch.device("cpu"))
 
 image_extensions = (".png", ".jpg", ".jpeg", ".bmp", ".gif")
 image_files = [
-    file
-    for file in os.listdir("app")
-    if file.lower().endswith(image_extensions)
+    file for file in os.listdir("app") if file.lower().endswith(image_extensions)
 ]
 
 for app_file in image_files:
