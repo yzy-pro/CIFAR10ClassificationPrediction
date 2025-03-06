@@ -8,26 +8,39 @@ from torchvision import transforms
 from sklearn.preprocessing import label_binarize
 
 # CIFAR-10 标签名称
-class_names = ['airplane', 'automobile', 'bird', 'cat', 'deer',
-               'dog', 'frog', 'horse', 'ship', 'truck']
+class_names = [
+    "airplane",
+    "automobile",
+    "bird",
+    "cat",
+    "deer",
+    "dog",
+    "frog",
+    "horse",
+    "ship",
+    "truck",
+]
 
 # 1. 加载数据集
 test_data_set = torchvision.datasets.CIFAR10(
     root="../data/test",
     train=False,
-    transform=torchvision.transforms.Compose([
-        torchvision.transforms.ToTensor(),
-        torchvision.transforms.Normalize(mean=[0.4914, 0.4822, 0.4465],
-                                         std=[0.2023, 0.1994, 0.2010]),
-    ]),
+    transform=torchvision.transforms.Compose(
+        [
+            torchvision.transforms.ToTensor(),
+            torchvision.transforms.Normalize(
+                mean=[0.4914, 0.4822, 0.4465], std=[0.2023, 0.1994, 0.2010]
+            ),
+        ]
+    ),
     download=True,
 )
 
 test_loader = DataLoader(test_data_set, batch_size=100, shuffle=False)
 
 # 2. 加载训练好的模型
-model_path = '../models/E_22_acc_0.8150040064102564.pth'
-model = torch.load(model_path, map_location=torch.device('cpu'))
+model_path = "../models/E_22_acc_0.8150040064102564.pth"
+model = torch.load(model_path, map_location=torch.device("cpu"))
 model.eval()  # 切换模型为评估模式
 
 # 3. 获取真实标签和模型预测的概率
@@ -51,25 +64,27 @@ tpr = {}
 roc_auc = {}
 
 for i in range(10):  # CIFAR-10有10个类别
-    fpr[i], tpr[i], _ = roc_curve(all_labels_bin[:, i], [prob[i] for prob in all_preds_prob])
+    fpr[i], tpr[i], _ = roc_curve(
+        all_labels_bin[:, i], [prob[i] for prob in all_preds_prob]
+    )
     roc_auc[i] = auc(fpr[i], tpr[i])
 
 # 6. 绘制所有类别的ROC曲线
 plt.figure(figsize=(10, 8))
 
 for i in range(10):
-    plt.plot(fpr[i], tpr[i], lw=2, label=f'{class_names[i]} (AUC = {roc_auc[i]:.2f})')
+    plt.plot(fpr[i], tpr[i], lw=2, label=f"{class_names[i]} (AUC = {roc_auc[i]:.2f})")
 
 # 绘制对角线（随机猜测的基准）
-plt.plot([0, 1], [0, 1], color='gray', linestyle='--')
+plt.plot([0, 1], [0, 1], color="gray", linestyle="--")
 
-plt.title('Receiver Operating Characteristic (ROC) Curve for CIFAR-10')
-plt.xlabel('False Positive Rate')
-plt.ylabel('True Positive Rate')
-plt.legend(loc='lower right')
+plt.title("Receiver Operating Characteristic (ROC) Curve for CIFAR-10")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.legend(loc="lower right")
 
 # 7. 保存ROC曲线图像
-plt.savefig('./roc_curve.png')
+plt.savefig("./roc_curve.png")
 
 # 如果需要显示图像，可以添加：
 plt.show()

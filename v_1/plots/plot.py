@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # 图像预处理，方便后续处理
-train_data = CIFAR10(root='../data/train',
+train_data = CIFAR10(root='../../data/train',
                      train=True,
                      transform=transforms.Compose([transforms.Resize(size=224), transforms.ToTensor()]),  # 调整为224x224
                      download=True)
@@ -32,4 +32,5 @@ for ii in np.arange(len(batch_y)):
     plt.title(class_label[batch_y[ii]], size=10)  # 使用CIFAR-10的类别标签
     plt.axis("off")
     plt.subplots_adjust(wspace=0.05)
+plt.savefig("plot.png")
 plt.show()

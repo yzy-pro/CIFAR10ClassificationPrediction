@@ -11,10 +11,12 @@ device = torch.device("xpu" if torch.xpu.is_available() else "cpu")
 
 # 加载数据
 train_data, test_data = data_loader.data_loader()
-train_data_load = DataLoader(dataset=train_data, batch_size=64,
-                               shuffle=True, drop_last=True)
-test_data_load = DataLoader(dataset=test_data, batch_size=64,
-                              shuffle=True, drop_last=True)
+train_data_load = DataLoader(
+    dataset=train_data, batch_size=64, shuffle=True, drop_last=True
+)
+test_data_load = DataLoader(
+    dataset=test_data, batch_size=64, shuffle=True, drop_last=True
+)
 
 # 设置，详见module.py文件中的注释
 mynet = module.mynet.to(device)
@@ -30,8 +32,11 @@ if __name__ == "__main__":
     acc_plt = []
 
     for epoch in range(epochs):
-        print("Epoch {}/{} ********************************"
-              .format(epoch + 1, epochs))
+        print(
+            "Epoch {}/{} ********************************".format(
+                epoch + 1, epochs
+            )
+        )
         train_step = 0
         mynet.train()
         losses = []
@@ -80,23 +85,27 @@ if __name__ == "__main__":
                 # print(f"Outputs shape: {outputs.shape}")
                 # print(f"Labels shape: {labels.shape}")
 
-                accuracy = (outputs.argmax(axis=1).cpu() == labels.cpu()).sum(
-
-                ).item()
+                accuracy = (
+                    (outputs.argmax(axis=1).cpu() == labels.cpu()).sum().item()
+                )
                 total_accuracy += accuracy
                 average_accuracy = total_accuracy / (len(test_data_load) * 64)
 
             test_loss_plt.append(sum(losses) / len(losses))
             acc_plt.append(average_accuracy)
 
-            print("Epoch %d, accuracy: %f" % (epoch + 1,
-                                                   average_accuracy))
+            print("Epoch %d, accuracy: %f" % (epoch + 1, average_accuracy))
             # 导出训练模型
-            os.makedirs(os.path.join(os.getcwd(), 'models'), exist_ok=True)
-            torch.save(mynet, f'./models/E_{epoch + 1}_acc_{average_accuracy}.pth')
+            os.makedirs(os.path.join(os.getcwd(), "models"), exist_ok=True)
+            torch.save(
+                mynet, f"./models/E_{epoch + 1}_acc_{average_accuracy}.pth"
+            )
 
     # 绘图
-    train_loss_plt, test_loss_plt, acc_plt =\
-        plot.to_numpy(train_loss_plt), plot.to_numpy(test_loss_plt), plot.to_numpy(acc_plt)
+    train_loss_plt, test_loss_plt, acc_plt = (
+        plot.to_numpy(train_loss_plt),
+        plot.to_numpy(test_loss_plt),
+        plot.to_numpy(acc_plt),
+    )
 
     plot.loss_plt(train_loss_plt, test_loss_plt, acc_plt)

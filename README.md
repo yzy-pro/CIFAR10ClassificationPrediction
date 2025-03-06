@@ -35,7 +35,7 @@ python -m pip install torch==2.5.1.post0+cxx11.abi torchvision==0.20.1.post0+cxx
 * 测试集[cifar-10-python.tar.gz](data/test/cifar-10-python.tar.gz)
 
 #### 导出模型
-* [models](models)
+* [models](models) 
 #### 训练可视化曲线图
 * [plots](plots)
 

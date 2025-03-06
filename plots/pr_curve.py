@@ -7,27 +7,39 @@ from torch.utils.data import DataLoader
 import numpy as np
 
 # CIFAR-10 标签名称
-class_names = ['airplane', 'automobile', 'bird', 'cat', 'deer',
-               'dog', 'frog', 'horse', 'ship', 'truck']
+class_names = [
+    "airplane",
+    "automobile",
+    "bird",
+    "cat",
+    "deer",
+    "dog",
+    "frog",
+    "horse",
+    "ship",
+    "truck",
+]
 
 # 1. 加载数据集
 test_data_set = torchvision.datasets.CIFAR10(
     root="../data/test",
     train=False,
-    transform=torchvision.transforms.Compose([
-        torchvision.transforms.ToTensor(),
-        torchvision.transforms.Normalize(mean=[0.4914, 0.4822, 0.4465],
-                                         std=[0.2023, 0.1994, 0.2010]),
-    ]),
+    transform=torchvision.transforms.Compose(
+        [
+            torchvision.transforms.ToTensor(),
+            torchvision.transforms.Normalize(
+                mean=[0.4914, 0.4822, 0.4465], std=[0.2023, 0.1994, 0.2010]
+            ),
+        ]
+    ),
     download=True,
 )
 
 test_loader = DataLoader(test_data_set, batch_size=100, shuffle=False)
 
 # 2. 加载训练好的模型
-model_path = '../models/E_22_acc_0.8150040064102564.pth'
-device = torch.device(
-    'xpu' if torch.xpu.is_available() else 'cpu')  # 使用GPU或CPU
+model_path = "../models/E_22_acc_0.8150040064102564.pth"
+device = torch.device("xpu" if torch.xpu.is_available() else "cpu")  # 使用GPU或CPU
 
 # 加载模型
 model = torch.load(model_path, map_location=device)
@@ -64,19 +76,22 @@ plt.figure(figsize=(8, 6))
 # 为每一个类绘制 PR 曲线
 for i in range(10):
     precision, recall, _ = precision_recall_curve(y_true == i, y_scores[:, i])
-    plt.plot(recall, precision,
-             label=f'{class_names[i]} (AP={average_precision_score(y_true == i, y_scores[:, i]):.2f})')
+    plt.plot(
+        recall,
+        precision,
+        label=f"{class_names[i]} (AP={average_precision_score(y_true == i, y_scores[:, i]):.2f})",
+    )
 
 # 设置图表标题和标签
-plt.title('Precision-Recall Curve for CIFAR-10')
-plt.xlabel('Recall')
-plt.ylabel('Precision')
+plt.title("Precision-Recall Curve for CIFAR-10")
+plt.xlabel("Recall")
+plt.ylabel("Precision")
 plt.legend(loc="lower left", bbox_to_anchor=(1.05, 0))
 plt.grid(True)
 
 # 保存图片到当前文件夹
 plt.tight_layout()
-plt.savefig('precision_recall_curve.png')
+plt.savefig("precision_recall_curve.png")
 
 # 显示图形
 plt.show()
